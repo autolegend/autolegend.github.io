@@ -44,7 +44,8 @@
         ths=[];
         if(data.length>0){
             data0=data[0];
-            for(key in data0){  //拿出对象的key
+            for(key in data0){
+                if(key == 'url') continue
                 th={
                     field:key,
                     title:key,
@@ -53,23 +54,31 @@
                 }
                 ths.push(th);
             }
+            ths.push({
+                    field: 'url',
+                    title: 'url',
+                    formatter:function(value,row,index){
+                        var s = '<a class = "view"  href="'+row['url']+'">'+row['url']+'</a>';
+                        return s;
+                    },
+                    sortable: true,
+            },)
         }
     $("#table_view").bootstrapTable('destroy').bootstrapTable({
         data: data,
         method: 'GET',
         search: true,
-        striped: true,                      //是否显示行间隔色
+        striped: true,
         showColumns: true,
         sidePagination: "true",
-        striped: true,    // 是否显示行间隔色
+        striped: true,
         crossDomain: true,
         clickToSelect: true,
         pageSize: data.length,
         detailView: false,
         pageList: [10, 20, 50],
-        pagination: true, // 是否分页
-        cardView: false,                    //是否显示详细视图
-        //showToggle: true,
+        pagination: true,
+        cardView: false,
         columns: ths
     });
     })
